@@ -17,6 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document.addEventListener("lamdenWalletTxStatus", (response) => {
+  console.log(response);
+});
+
+document.addEventListener("lamdenWalletInfo", handleWalletInfo);
+
 // Función para manejar el evento 'lamdenWalletInfo'
 function connectToWallet() {
   const detail = JSON.stringify({
@@ -32,12 +38,6 @@ function connectToWallet() {
 }
 
 function informacion() {
-  // Remover el evento de escucha previo, si existe
-  document.removeEventListener("lamdenWalletInfo", handleWalletInfo);
-
-  // Agregar el evento de escucha
-  document.addEventListener("lamdenWalletInfo", handleWalletInfo);
-
   // Get Wallet Info
   document.dispatchEvent(new CustomEvent("lamdenWalletGetInfo"));
 }
@@ -75,9 +75,6 @@ function trasaccion() {
     //The maximum amount of stamps this transaction is allowed to use
     //Could you less but won't be allowed to use more
     stampLimit: 100,
-  });
-  document.addEventListener("lamdenWalletTxStatus", (response) => {
-    console.log(response);
   });
   document.dispatchEvent(new CustomEvent("lamdenWalletSendTx", { detail }));
 }
