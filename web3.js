@@ -50,8 +50,8 @@ function informacion() {
 }
 
 function handleWalletInfo(response) {
-  if (response.detail.error) {
-    console.log(response.detail.error);
+  if (response.detail.errors) {
+    console.log(response.detail.errors);
     return;
   }
   if (response.detail.locked) {
