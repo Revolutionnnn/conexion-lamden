@@ -1,27 +1,34 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const boton = document.getElementById("boton");
-  boton.addEventListener("click", connectToWallet);
-
-  const infoBoton = document.getElementById("info");
-  infoBoton.addEventListener("click", informacion);
-
-  const formulario = document.getElementById("JugarPartida");
-  formulario.addEventListener("submit", (event) => {
-    event.preventDefault(); // Evitar el envío del formulario por defecto
-
-    // Obtener el valor del input
-    const inputNombre = document.getElementById("jugar");
-    const valorNombre = inputNombre.value;
-
-    trasaccion();
-  });
-});
+const ROCK = parseFloat(1);
+const PAPER = parseFloat(2);
+const SCISSOR = parseFloat(3);
+let Eleccion = null;
 
 document.addEventListener("lamdenWalletTxStatus", (response) => {
   console.log(response);
 });
 
 document.addEventListener("lamdenWalletInfo", handleWalletInfo);
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("rock").onclick = () => {
+    Eleccion = ROCK;
+  };
+  document.getElementById("scissor").onclick = () => {
+    Eleccion = SCISSOR;
+  };
+  document.getElementById("paper").onclick = () => {
+    Eleccion = PAPER;
+  };
+  const boton = document.getElementById("boton");
+  boton.addEventListener("click", connectToWallet);
+
+  const infoBoton = document.getElementById("info");
+  infoBoton.addEventListener("click", informacion);
+
+  document.getElementById("jugar").onclick = () => {
+    trasaccion();
+  };
+});
 
 // Función para manejar el evento 'lamdenWalletInfo'
 function connectToWallet() {
@@ -55,7 +62,9 @@ function handleWalletInfo(response) {
 }
 
 function trasaccion() {
-  // Get Wallet Info
+  if (Eleccion === null) {
+    return console.log("Elige");
+  }
   const detail = JSON.stringify({
     contractName: "con_juego_10", // user will ALWAYS get a popup for any contracts that are different than the approved contract from your connection request
     //Which Lamden Network to send this to
@@ -69,7 +78,7 @@ function trasaccion() {
 
     //The argument values for your method
     kwargs: {
-      movimiento: parseInt(1),
+      movimiento: Eleccion,
       precio: parseFloat(3.0),
     },
     //The maximum amount of stamps this transaction is allowed to use
