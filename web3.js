@@ -3,6 +3,17 @@ const PAPER = parseFloat(2);
 const SCISSOR = parseFloat(3);
 let Eleccion = null;
 
+var me = this;
+var callbacks = {};
+me.sendTransaction = function (tx, callback) {
+  tx.uid = new Date().toISOString()
+  callbacks[tx.uid] = callback;
+  console.log(tx)
+  document.dispatchEvent(new CustomEvent('lamdenWalletSendTx', {
+  detail: JSON.stringify(tx)
+  }));
+}
+
 document.addEventListener("lamdenWalletTxStatus", (response) => {
   console.log(response);
 });
