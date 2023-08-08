@@ -6,9 +6,9 @@ let Eleccion = null;
 var me = this;
 var callbacks = {};
 
-document.dispatchEvent(new CustomEvent('lamdenWalletSendTx', {
-  console.log("test");
-}));
+document.dispatchEvent(
+  new CustomEvent("lamdenWalletSendTx", console.log("test"))
+);
 
 document.addEventListener("lamdenWalletInfo", handleWalletInfo);
 
