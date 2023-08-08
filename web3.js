@@ -3,9 +3,6 @@ const PAPER = parseFloat(2);
 const SCISSOR = parseFloat(3);
 let Eleccion = null;
 
-var me = this;
-var callbacks = {};
-
 document.dispatchEvent(
   new CustomEvent("lamdenWalletSendTx", console.log("test"))
 );
