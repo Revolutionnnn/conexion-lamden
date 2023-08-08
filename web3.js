@@ -3,9 +3,36 @@ const PAPER = parseFloat(2);
 const SCISSOR = parseFloat(3);
 let Eleccion = null;
 
-document.dispatchEvent(
-  new CustomEvent("lamdenWalletSendTx", console.log("test"))
-);
+document.addEventListener("DOMContentLoaded", () => {
+
+  let me = this;
+  let callbacks = {};
+
+  me.sendTransaction = function (tx, callback) {
+    tx.uid = new Date().toISOString()
+    callbacks[tx.uid] = callback;
+    document.dispatchEvent(new CustomEvent('lamdenWalletSendTx', {
+      detail: JSON.stringify(tx)
+    }));
+  }
+
+  document.addEventListener('lamdenWalletTxStatus', (e) => {
+    try {
+      let txResult = e.detail.data;
+      console.log(txResult)
+      if (txResult.resultInfo.title == 'Transaction Pending') {
+      }
+
+      if (txResult.status != "Transaction Cancelled") {
+        if (Object.keys(txResult.txBlockResult).length > 0) {
+          if (callbacks[txResult.uid]) callbacks[txResult.uid](txResult)
+        }
+      }
+      else {
+      }
+      if (e.detail.status == "error") { }
+    } catch (err) { }
+  });
 
 document.addEventListener("lamdenWalletInfo", handleWalletInfo);
 
@@ -61,7 +88,7 @@ function handleWalletInfo(response) {
   }
 }
 
-function trasaccion() {
+function trasaccion(me) {
   if (Eleccion === null) {
     return console.log("Elige");
   }
@@ -85,5 +112,10 @@ function trasaccion() {
     //Could you less but won't be allowed to use more
     stampLimit: 100,
   });
-  document.dispatchEvent(new CustomEvent("lamdenWalletSendTx", { detail }));
+    me.sendTransaction(detail, function (response) {
+    console.log(response)
+    if (response.resultInfo.type == "success") {
+      console.log(response)
+    }
+  });
 }
