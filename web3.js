@@ -3,43 +3,11 @@ const PAPER = parseFloat(2);
 const SCISSOR = parseFloat(3);
 let Eleccion = null;
 
-
-
-
+// FALTA COLOCAR EL HADDLER EVENT DE LA TRASSACCION
 
 document.addEventListener("lamdenWalletInfo", handleWalletInfo);
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    let me = this;
-    let callbacks = {};
-
-    me.sendTransaction = function (tx, callback) {
-        tx.uid = new Date().toISOString()
-        callbacks[tx.uid] = callback;
-        document.dispatchEvent(new CustomEvent('lamdenWalletSendTx', {
-            detail: JSON.stringify(tx)
-        }));
-    }
-
-    document.addEventListener('lamdenWalletTxStatus', (e) => {
-        try {
-            let txResult = e.detail.data;
-            console.log(txResult)
-            if (txResult.resultInfo.title == 'Transaction Pending') {
-            }
-
-            if (txResult.status != "Transaction Cancelled") {
-                if (Object.keys(txResult.txBlockResult).length > 0) {
-                    if (callbacks[txResult.uid]) callbacks[txResult.uid](txResult)
-                }
-            }
-            else {
-            }
-            if (e.detail.status == "error") { }
-        } catch (err) { }
-    });
-
 
     document.getElementById("rock").onclick = () => {
         Eleccion = ROCK;
@@ -107,12 +75,5 @@ function trasaccion(me) {
         },
         stampLimit: 100,
     };
-
-    me.sendTransaction(detail, function (response) {
-        console.log(response)
-        if (response.resultInfo.type == "success") {
-            //aca funciono la transaccion
-        }
-    });
-
+// FALTA COLOCAR LA TRASACCION
 }
